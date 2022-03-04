@@ -6,6 +6,7 @@ const Person = require('./models/person')
 const morgan = require('morgan')
 
 
+app.use(express.static('build'))
 app.use(express.json())
 app.use(cors())
 
@@ -14,7 +15,6 @@ morgan.token('person', function getPerson(req) {
 })
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :person'))
 
-app.use(express.static('build'))
 
 
 app.get('/', (request, response) => {
@@ -46,11 +46,30 @@ app.get('/info', (request, response) => {
 // })
 
 //using Mongoose's findById to get individual person
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response, next) => {
     Person.findById(request.params.id).then(person => {
-        response.json(person)
+        if (person) {
+            response.json(person)
+        } else {
+            response.status(404).end()
+        }
     })
+    .catch(error => next(error))
+    //     {
+    //     console.log(error)
+    //     response.status(400).send({error: 'malformatted id'})
+    // })
 })
+
+const errorHandler = (error, request, response, next) => {
+    console.error(error.message)
+
+    if (error.name === 'CastError') {
+        return response.status(400).send({ error: 'malformatted id' })
+    }
+
+    next(error)
+}
 
 app.delete('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
@@ -124,6 +143,10 @@ app.post('/api/persons', (request, response) => {
 //       "number": "39-23-6423122"
 //     }
 // ]
+
+
+// this has to be the last loaded middleware.
+app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
