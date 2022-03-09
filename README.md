@@ -2,6 +2,8 @@
 
 Phonebook website
 
-backend by node.js, express, mongoDB atlas and deployed with heroku
+Creating a RESTful API using Node.js, Express, mongoDB and Mongoose
+
+Deployed with Heroku :
 
 https://fathomless-castle-14833.herokuapp.com/
