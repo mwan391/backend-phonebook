@@ -25,6 +25,7 @@ const Person = mongoose.model('Person', personSchema)
 //   number: 999-573,
 // })
 
+// add people via terminal
 if (process.argv.length > 3 ) {
   // console.log(process.argv)
   // mongoose.connection.close()
@@ -37,6 +38,7 @@ if (process.argv.length > 3 ) {
     mongoose.connection.close()
   })
 } else {
+  // display details of existing people
   Person.find({}).then(result => {
     result.forEach(person => {
       console.log(`${person.name} ${person.number}`)
