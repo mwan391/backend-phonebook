@@ -1,9 +1,8 @@
-# FS-part3-backend
+# FS-backend
 
-Phonebook website
+- [Phonebook CRUD](https://fathomless-castle-14833.herokuapp.com/)
 
-Creating a RESTful API using Node.js, Express, mongoDB
+- RESTful API using Node.js, Express, mongoDB
 
-Deployed with Heroku :
+- Deployed with Heroku 
 
-https://fathomless-castle-14833.herokuapp.com/
